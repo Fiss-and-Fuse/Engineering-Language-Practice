@@ -1,0 +1,17 @@
+{
+  "name": "Engineering Practice",
+  "short_name": "Eng Practice",
+  "description": "Quick engineering document analysis practice",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0a0f1a",
+  "theme_color": "#3b82f6",
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}
