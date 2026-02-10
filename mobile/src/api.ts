@@ -55,7 +55,7 @@ async function fetchJson<T>(path: string, options?: RequestInit): Promise<T> {
 
 const api = {
   /** Start a new quick practice session */
-  startQuick(durationMode: "2.5min" | "5min" | "10min"): Promise<QuickScenario> {
+  startQuick(durationMode: "5min" | "10min" | "20min"): Promise<QuickScenario> {
     return fetchJson<QuickScenario>("/api/quick/start", {
       method: "POST",
       body: JSON.stringify({ duration_mode: durationMode }),
