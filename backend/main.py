@@ -593,6 +593,10 @@ async def submit_quick_session(session_id: str, request: QuickSubmitRequest):
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Grading failed: {str(e)}")
 
+    # Check for parsing errors from Claude
+    if "error" in feedback:
+        raise HTTPException(status_code=500, detail=f"Grading parse error: {feedback.get('error')}")
+
     # Save the complete session
     session_data = {
         "session_id": session_id,

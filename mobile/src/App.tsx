@@ -61,9 +61,14 @@ export default function App() {
     const timeUsed = Math.round((Date.now() - startTimeRef.current) / 1000);
     try {
       const result = await api.submitQuick(scenario.session_id, response, timeUsed, getDevice());
-      setFeedback(result.feedback);
-      setScreen("feedback");
+      if (result.feedback) {
+        setFeedback(result.feedback);
+        setScreen("feedback");
+      } else {
+        setError("Grading returned empty response");
+      }
     } catch (err) {
+      console.error("Submit error:", err);
       setError(err instanceof Error ? err.message : "Failed to submit");
     } finally {
       setIsSubmitting(false);
@@ -212,7 +217,17 @@ export default function App() {
   }
 
   // Feedback
-  if (screen === "feedback" && feedback) {
+  if (screen === "feedback") {
+    if (!feedback) {
+      return (
+        <div style={S.page}>
+          <div style={{ padding: "40px 20px", textAlign: "center" }}>
+            <div style={{ color: "#ef4444", marginBottom: "16px" }}>Grading failed to load</div>
+            <button onClick={() => setScreen("home")} style={S.primaryBtn}>Back to Home</button>
+          </div>
+        </div>
+      );
+    }
     return (
       <div style={S.page}>
         <div style={S.feedbackContainer}>
