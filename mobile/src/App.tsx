@@ -3,11 +3,11 @@ import { Loader2, Clock, ChevronRight, CheckCircle, XCircle, History } from "luc
 import api, { QuickScenario, QuickFeedback, QuickSession } from "./api";
 
 type Screen = "home" | "loading" | "exercise" | "feedback" | "history";
-type DurationMode = "2.5min" | "5min" | "10min";
+type DurationMode = "5min" | "10min" | "20min";
 
 export default function App() {
   const [screen, setScreen] = useState<Screen>("home");
-  const [durationMode, setDurationMode] = useState<DurationMode>("5min");
+  const [durationMode, setDurationMode] = useState<DurationMode>("10min");
   const [scenario, setScenario] = useState<QuickScenario | null>(null);
   const [response, setResponse] = useState("");
   const [timeLeft, setTimeLeft] = useState(0);
@@ -24,20 +24,6 @@ export default function App() {
     if (/Mobile|Android|iPhone|iPad/.test(ua)) return "mobile";
     return "desktop";
   };
-
-  // Timer logic
-  useEffect(() => {
-    if (screen === "exercise" && timeLeft > 0) {
-      timerRef.current = window.setTimeout(() => {
-        setTimeLeft((t) => t - 1);
-      }, 1000);
-      return () => {
-        if (timerRef.current) clearTimeout(timerRef.current);
-      };
-    } else if (screen === "exercise" && timeLeft === 0 && scenario && !isSubmitting) {
-      handleSubmit();
-    }
-  }, [screen, timeLeft, scenario, isSubmitting, handleSubmit]);
 
   const handleStart = async () => {
     setScreen("loading");
@@ -75,6 +61,20 @@ export default function App() {
     }
   }, [scenario, response, isSubmitting]);
 
+  // Timer logic - must be after handleSubmit is defined
+  useEffect(() => {
+    if (screen === "exercise" && timeLeft > 0) {
+      timerRef.current = window.setTimeout(() => {
+        setTimeLeft((t) => t - 1);
+      }, 1000);
+      return () => {
+        if (timerRef.current) clearTimeout(timerRef.current);
+      };
+    } else if (screen === "exercise" && timeLeft === 0 && scenario && !isSubmitting) {
+      handleSubmit();
+    }
+  }, [screen, timeLeft, scenario, isSubmitting, handleSubmit]);
+
   const handleViewHistory = async () => {
     setScreen("loading");
     try {
@@ -104,7 +104,7 @@ export default function App() {
           {error && <div style={S.error}>{error}</div>}
 
           <div style={S.modeSelector}>
-            {(["2.5min", "5min", "10min"] as DurationMode[]).map((mode) => (
+            {(["5min", "10min", "20min"] as DurationMode[]).map((mode) => (
               <button
                 key={mode}
                 onClick={() => setDurationMode(mode)}
@@ -116,9 +116,9 @@ export default function App() {
               >
                 <div style={{ fontSize: "18px", fontWeight: 600 }}>{mode}</div>
                 <div style={{ fontSize: "12px", color: durationMode === mode ? "#bfdbfe" : "#64748b" }}>
-                  {mode === "2.5min" && "5 bullets, 2 docs"}
-                  {mode === "5min" && "9-10 bullets, 3 docs"}
-                  {mode === "10min" && "15 bullets, 3 docs"}
+                  {mode === "5min" && "5 bullets, 2 docs"}
+                  {mode === "10min" && "9-10 bullets, 3 docs"}
+                  {mode === "20min" && "15 bullets, 3 docs"}
                 </div>
               </button>
             ))}

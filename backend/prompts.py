@@ -463,11 +463,11 @@ Guidelines:
 def get_quick_scenario_user_prompt(duration_mode: str, domain: str | None) -> str:
     """Build prompt for quick scenario generation."""
 
-    if duration_mode == "2.5min":
+    if duration_mode == "5min":
         structure = "2 documents with 2-3 bullets each (5 total bullets)"
-    elif duration_mode == "5min":
+    elif duration_mode == "10min":
         structure = "3 documents with 3-4 bullets each (9-10 total bullets)"
-    else:  # 10min
+    else:  # 20min
         structure = "3 documents with 5 bullets each (15 total bullets)"
 
     domain_instruction = (

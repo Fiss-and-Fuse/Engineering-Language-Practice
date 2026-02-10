@@ -509,9 +509,9 @@ async def update_config(update: ConfigUpdate):
 active_quick_sessions: dict[str, dict] = {}
 
 DURATION_SECONDS = {
-    "2.5min": 150,
     "5min": 300,
     "10min": 600,
+    "20min": 1200,
 }
 
 
