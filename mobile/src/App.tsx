@@ -5,12 +5,6 @@ import api, { QuickScenario, QuickFeedback, QuickSession } from "./api";
 type Screen = "home" | "loading" | "exercise" | "feedback" | "history";
 type DurationMode = "2.5min" | "5min" | "10min";
 
-const DURATION_SECONDS: Record<DurationMode, number> = {
-  "2.5min": 150,
-  "5min": 300,
-  "10min": 600,
-};
-
 export default function App() {
   const [screen, setScreen] = useState<Screen>("home");
   const [durationMode, setDurationMode] = useState<DurationMode>("5min");
