@@ -34,10 +34,10 @@ export default function App() {
       return () => {
         if (timerRef.current) clearTimeout(timerRef.current);
       };
-    } else if (screen === "exercise" && timeLeft === 0 && scenario) {
+    } else if (screen === "exercise" && timeLeft === 0 && scenario && !isSubmitting) {
       handleSubmit();
     }
-  }, [screen, timeLeft, scenario]);
+  }, [screen, timeLeft, scenario, isSubmitting, handleSubmit]);
 
   const handleStart = async () => {
     setScreen("loading");
@@ -207,6 +207,8 @@ export default function App() {
                 <Loader2 size={18} style={{ animation: "spin 1s linear infinite" }} />
                 Submitting...
               </>
+            ) : timeLeft === 0 ? (
+              <>Submit</>
             ) : (
               <>Submit Early</>
             )}
